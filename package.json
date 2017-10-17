@@ -1,0 +1,43 @@
+{
+  "name": "mulheres-palestrantes-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "private": true,
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "lint": "eslint . --fix",
+    "start": "nodemon --exec babel-node -- ./app.js",
+    "shell": "babel-node",
+    "migrate": "./node_modules/.bin/migrate",
+    "test": "jest --runInBand --no-cache --verbose --coverage --forceExit --expand --useStderr"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "debug": "~2.6.3",
+    "ejs": "~2.5.6",
+    "eslint": "^4.5.0",
+    "koa": "^2.3.0",
+    "koa-router": "^7.2.1",
+    "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.8.0",
+    "umzug": "^2.0.1",
+    "sqlite3": "^3.1.13"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-jest": "^20.0.3",
+    "babel-preset-env": "^1.6.0",
+    "factory-girl": "^5.0.0-beta.1",
+    "jest-cli": "^20.0.4",
+    "nodemon": "^1.11.0",
+    "sinon": "^3.2.1",
+    "supertest": "^3.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupTestFrameworkScriptFile": "./tests/setup.js"
+  }
+}

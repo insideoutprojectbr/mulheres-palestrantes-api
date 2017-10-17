@@ -1,0 +1,23 @@
+version: "3"
+services:
+  web:
+    build: .
+    command: npm start
+    container_name: "mulheres-palestrantes-api-web"
+    links:
+      - db
+    depends_on:
+      - db
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    env_file: .env
+  db:
+    image: postgres:10.0
+    ports:
+      - "5432:5432"
+    container_name: "mulheres-palestrantes-api-db"
+    environment:
+      - POSTGRES_DB=mulheres_palestrantes_db
