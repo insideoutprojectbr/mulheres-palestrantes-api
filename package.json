@@ -6,9 +6,13 @@
   "private": true,
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "8.6.x"
+  },
   "scripts": {
+    "start": "babel-node ./server.js",
     "lint": "eslint . --fix",
-    "start": "nodemon --exec babel-node -- ./server.js",
+    "local": "nodemon --exec babel-node -- ./server.js",
     "shell": "babel-node",
     "migrate": "babel-node ./migrate.js",
     "test": "cross-env NODE_ENV=test jest --runInBand --no-cache --verbose --coverage --forceExit --expand --useStderr"
