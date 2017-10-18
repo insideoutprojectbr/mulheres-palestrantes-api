@@ -8,13 +8,14 @@
   "license": "ISC",
   "scripts": {
     "lint": "eslint . --fix",
-    "start": "nodemon --exec babel-node -- ./app.js",
+    "start": "nodemon --exec babel-node -- ./server.js",
     "shell": "babel-node",
-    "migrate": "./node_modules/.bin/migrate",
-    "test": "jest --runInBand --no-cache --verbose --coverage --forceExit --expand --useStderr"
+    "migrate": "babel-node ./migrate.js",
+    "test": "cross-env NODE_ENV=test jest --runInBand --no-cache --verbose --coverage --forceExit --expand --useStderr"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "cross-env": "^5.1.0",
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
     "eslint": "^4.5.0",
@@ -23,8 +24,9 @@
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.8.0",
+    "sqlite3": "^3.1.13",
     "umzug": "^2.0.1",
-    "sqlite3": "^3.1.13"
+    "winston": "^2.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

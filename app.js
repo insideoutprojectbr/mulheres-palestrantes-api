@@ -9,10 +9,7 @@ let api = new Router({
     prefix: "/api"
 })
 api.use(healthcheck.routes(), healthcheck.allowedMethods())
-
-app.listen(process.env.PORT)
 app.use(api.routes())
 app.use(api.allowedMethods())
 app.on("error", handleError)
-
 export {app}
