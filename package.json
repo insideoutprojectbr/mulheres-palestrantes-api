@@ -11,14 +11,21 @@
   },
   "scripts": {
     "start": "babel-node ./server.js",
+    "postinstall": "babel-node ./scripts/seed.js https://raw.githubusercontent.com/insideoutprojectbr/mulheres-palestrantes/master/mulheres.json",
     "lint": "eslint . --fix",
     "local": "nodemon --exec babel-node -- ./server.js",
     "shell": "babel-node",
-    "migrate": "babel-node ./migrate.js",
+    "migrate": "babel-node ./scripts/migrate.js",
+    "seed": "babel-node ./scripts/seed.js",
     "test": "cross-env NODE_ENV=test jest --runInBand --no-cache --verbose --coverage --forceExit --expand --useStderr"
   },
   "dependencies": {
+    "superagent": "^3.6.3",
+    "babel-cli": "^6.24.1",
+    "babel-jest": "^20.0.3",
+    "babel-preset-env": "^1.6.0",
     "bluebird": "^3.5.0",
+    "commander": "^2.11.0",
     "cross-env": "^5.1.0",
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
@@ -30,10 +37,7 @@
     "sequelize": "^4.8.0",
     "sqlite3": "^3.1.13",
     "umzug": "^2.0.1",
-    "winston": "^2.4.0",
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.6.0",
-    "babel-jest": "^20.0.3"
+    "winston": "^3.0.0-rc0"
   },
   "devDependencies": {
     "factory-girl": "^5.0.0-beta.1",

@@ -6,10 +6,12 @@ export default function(sequelize, DataTypes) {
                 notEmpty: true,
                 allowNull: false,
                 unique: true
-            },
+            }
+        },
+        {
             underscored: true,
-            tableName: "interests",
-            createdAt: "created_at"
+            timestamps: false,
+            tableName: "interests"
         })
 
     Interest.associate = function(models) {

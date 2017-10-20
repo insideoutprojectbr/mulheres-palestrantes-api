@@ -14,7 +14,15 @@ export default {
                 notEmpty: true,
                 allowNull: false,
                 unique: true
+            },
+            created_at: {
+                type: DataTypes.DATE,
+            },
+            updated_at: {
+                type: DataTypes.DATE,
             }
+        },{
+            underscored: true
         })
     },
     down: function(query) {

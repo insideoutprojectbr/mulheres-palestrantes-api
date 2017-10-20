@@ -2,12 +2,12 @@ import path from "path"
 import child_process from "child_process"
 import Promise from "bluebird"
 import Umzug from "umzug"
-import db from "./models"
+import db from "../models"
 
 let sequelize = db.sequelize
 
-const DB_NAME = process.env.MYSQL_DATABASE
-const DB_USER = "root"
+const DB_NAME = sequelize.config.database
+const DB_USER = sequelize.config.username
 
 const umzug = new Umzug({
     storage: "sequelize",

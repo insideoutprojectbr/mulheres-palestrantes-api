@@ -3,7 +3,7 @@ import path from "path"
 import Sequelize from "sequelize"
 import config from "../config"
 
-const sequelize = new Sequelize(config.DATABASE_URL, {logging: false})
+const sequelize = new Sequelize(config.DATABASE_URL)
 
 let db = {}
 

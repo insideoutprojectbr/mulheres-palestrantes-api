@@ -11,14 +11,11 @@ export default {
             },
             name: {
                 type: DataTypes.STRING(255),
-                notEmpty: true,
-                allowNull: false,
-                unique: true
+                allowNull: false
             },
             email: {
                 type: DataTypes.STRING(255),
-                notEmpty: true,
-                allowNull: false,
+                allowNull: true,
                 unique: true
             },
             published: {

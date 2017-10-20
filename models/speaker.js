@@ -3,22 +3,26 @@ export default function(sequelize, DataTypes) {
         {
             name: {
                 type: DataTypes.STRING(255),
-                notEmpty: true,
-                allowNull: false,
-                unique: true
+                allowNull: false
             },
             email: {
                 type: DataTypes.STRING(255),
-                notEmpty: true,
-                allowNull: false,
+                allowNull: true,
                 unique: true
             },
             published: {
                 type: DataTypes.BOOLEAN,
-                notEmpty: true,
-                allowNull: false,
                 default: false
             },
+            location: {
+                type: DataTypes.STRING(255),
+                allowNull: true
+            },
+            photo: {
+                type: DataTypes.STRING(255),
+                allowNull: true
+            }
+        },{
             underscored: true,
             tableName: "speakers",
             createdAt: "created_at",
@@ -27,7 +31,7 @@ export default function(sequelize, DataTypes) {
 
     Speaker.associate = function(models) {
         Speaker.belongsToMany(models.Interest, {through: "speakers_interests", foreignKey: "speaker_id"})
-        Speaker.belongsToMany(models.SocialNetwork, {through: "speakers_social_networks", foreignKey: "speaker_id"})
+        Speaker.belongsToMany(models.SocialNetwork, {through: "speakers_social_networks", foreignKey: "social_network_id"})
     }
 
     return Speaker

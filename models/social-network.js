@@ -7,6 +7,8 @@ export default function(sequelize, DataTypes) {
                 allowNull: false,
                 unique: true
             },
+        },
+        {
             underscored: true,
             tableName: "social_networks"
         })

@@ -1,4 +1,4 @@
-const tableName = "speaker_social_networks"
+const tableName = "speakers_interests"
 
 export default {
     up: function(query, DataTypes) {
@@ -17,14 +17,22 @@ export default {
                     key: "id"
                 }
             },
-            social_network_id: {
+            interest_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
-                    model: "social_networks",
+                    model: "interests",
                     key: "id"
                 }
-            }
+            },
+            created_at: {
+                type: DataTypes.DATE,
+            },
+            updated_at: {
+                type: DataTypes.DATE,
+            },
+        },{
+            underscored: true
         })
     },
     down: function(query) {
