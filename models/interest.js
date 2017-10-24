@@ -5,7 +5,7 @@ export default function(sequelize, DataTypes) {
                 type: DataTypes.STRING(255),
                 notEmpty: true,
                 allowNull: false,
-                unique: true
+                unique: true,
             }
         },
         {
@@ -13,10 +13,6 @@ export default function(sequelize, DataTypes) {
             timestamps: false,
             tableName: "interests"
         })
-
-    Interest.associate = function(models) {
-        Interest.belongsToMany(models.Speaker, {through: "speakers_interests", foreignKey: "interest_id"})
-    }
 
     return Interest
 }

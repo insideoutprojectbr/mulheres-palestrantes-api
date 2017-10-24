@@ -4,5 +4,6 @@ export default {
     DATABASE_URL_TEST: process.env.DATABASE_URL_TEST,
     MIDDLEWARE_LOGGER_FORMAT: process.env.MIDDLEWARE_LOGGER_FORMAT || "combined",
     LOG_LEVEL: process.env.LOG_LEVEL || "info",
-    CORS_ORIGINS: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(",") : ["0.0.0.0:5000"]
+    CORS_ORIGINS: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(",") : ["0.0.0.0:5000"],
+    PLACEHOLDER_URL: process.env.PLACEHOLDER_URL || "http://insideoutproject.xyz/mulheres-palestrantes/img/placeholder-female.jpg"
 }

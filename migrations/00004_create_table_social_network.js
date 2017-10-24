@@ -15,6 +15,11 @@ export default {
                 allowNull: false,
                 unique: true
             },
+            url: {
+                type: DataTypes.STRING(255),
+                notEmpty: true,
+                allowNull: false
+            },
             created_at: {
                 type: DataTypes.DATE,
             },

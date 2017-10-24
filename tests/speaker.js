@@ -45,6 +45,12 @@ export default function(sequelize, DataTypes) {
                 }
             },
             scopes: {
+                defaultScope: {
+                    include: [{
+                        model: sequelize.models.SocialNetworkAccount,
+                        include: [sequelize.models.SocialNetwork]
+                    }]
+                },
                 searchable: function(query){
                     const Sequelize = sequelize.Sequelize
                     let filter = {}

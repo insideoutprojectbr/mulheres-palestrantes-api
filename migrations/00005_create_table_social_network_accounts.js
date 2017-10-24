@@ -25,6 +25,11 @@ export default {
                     key: "id"
                 }
             },
+            username: {
+                type: DataTypes.STRING(255),
+                notEmpty: true,
+                allowNull: false
+            },
             created_at: {
                 type: DataTypes.DATE,
             },

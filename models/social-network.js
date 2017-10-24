@@ -7,14 +7,19 @@ export default function(sequelize, DataTypes) {
                 allowNull: false,
                 unique: true
             },
+            url: {
+                type: DataTypes.STRING(255),
+                notEmpty: true,
+                allowNull: false
+            }
         },
         {
             underscored: true,
-            tableName: "social_networks"
+            tableName: "social_networks",
         })
 
     SocialNetwork.associate = function(models) {
-        SocialNetwork.belongsToMany(models.Speaker, {through: "speakers_social_networks", foreignKey: "social_network_id"})
+        SocialNetwork.hasMany(models.SocialNetworkAccount)
     }
 
     return SocialNetwork

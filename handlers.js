@@ -1,4 +1,5 @@
 const handleError = (err, ctx) => { // eslint-disable-line no-unused-vars
+    console.log(err)
     let errors = [err.message]
     if (err.errors) {
         errors = Object.values(err.errors).map(value => value.message)
