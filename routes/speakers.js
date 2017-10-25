@@ -1,3 +1,4 @@
+import Promise from "bluebird"
 import db from "../models"
 import Router from "koa-router"
 
@@ -7,21 +8,20 @@ const router = new Router({
 
 router.get("/", async ctx => {
     const {query} = ctx.query
-    const speakers = await db.Speaker.scope({method: ["searchable", query]}).findAll()
+    const speakers = await db.Speaker.findByQuery(query).
+        then(speakers => Promise.map(speakers, speaker => speaker.getFullInfo())) || []
     ctx.body = {
-        speakers: speakers.map(speaker => {
-            const data = {
-                id: speaker.id,
-                name: speaker.name,
-                email: speaker.email,
-                location: speaker.location,
-                photo : speaker.image,
-                site: speaker.site,
-                interests: speaker.Interests.map(interest => interest.name),
-            }
-            return Object.assign(data, speaker.socialNetworksByName)
-        })
+        speakers: speakers
     }
 })
+router.get("/:id", async ctx => {
+    try{
+        const speaker = await db.Speaker.findById(parseInt(ctx.params.id))
+        ctx.body = {speaker: await speaker.getFullInfo()}
+    }catch (error){
+        ctx.throw(404, "speaker not found")
+    }
+})
+
 
 export default router

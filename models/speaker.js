@@ -1,3 +1,4 @@
+import Promise from "bluebird"
 import {generateGravatarUrl} from "../utils/image"
 
 export default function(sequelize, DataTypes) {
@@ -36,12 +37,6 @@ export default function(sequelize, DataTypes) {
             getterMethods: {
                 image(){
                     return this.getDataValue("photo") || generateGravatarUrl(this.getDataValue("email"))
-                },
-                socialNetworksByName(){
-                    return this.SocialNetworkAccounts.reduce((result, account) => Object.assign(result,
-                        {
-                            [account.SocialNetwork.name]: account.socialNetworkUrl
-                        }), {})
                 }
             },
             scopes: {
@@ -86,6 +81,42 @@ export default function(sequelize, DataTypes) {
         Speaker.belongsToMany(models.SocialNetwork, {
             through: models.SocialNetworkAccount,
         })
+    }
+
+    Speaker.findByQuery = function(query){
+        return this.scope({method: ["searchable", query]}).findAll()
+    }
+
+    Speaker.prototype.groupSocialNetworksByName = async function(){
+        const accounts = await this.fetchAssociation("SocialNetworkAccounts", {
+            include: [sequelize.models.SocialNetwork]
+        })
+        const urls = await Promise.map(accounts, account => account.getSocialNetworkUrl().then(url =>
+            ({[account.SocialNetwork.name]: url})))
+        return Object.assign({}, ...urls)
+    }
+
+    Speaker.prototype.getInterestList = async function(){
+        const list = await this.fetchAssociation("Interests")
+        return list.map(interest => interest.name)
+    }
+
+    Speaker.prototype.getFullInfo = function(){
+        return Promise.join(
+            this.getInterestList(),
+            this.groupSocialNetworksByName(),
+            (interests, social_networks) => {
+                const data = {
+                    id: this.id,
+                    name: this.name,
+                    email: this.email,
+                    location: this.location,
+                    photo : this.image,
+                    site: this.site,
+                    interests: interests
+                }
+                return Promise.resolve(Object.assign(data, social_networks))
+            })
     }
 
     return Speaker

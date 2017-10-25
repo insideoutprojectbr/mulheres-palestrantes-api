@@ -3,7 +3,7 @@ import path from "path"
 import Sequelize from "sequelize"
 import config from "../config"
 
-const sequelize = new Sequelize(config.DATABASE_URL)
+const sequelize = new Sequelize(config.DATABASE_URL, {logging: false})
 
 let db = {}
 
@@ -18,6 +18,9 @@ fs.readdirSync(__dirname)
 Object.keys(db).forEach(function(modelName) {
     if ("associate" in db[modelName]) {
         db[modelName].associate(db)
+        db[modelName].prototype.fetchAssociation = function(name, options={}){
+            return this[name] ? Promise.resolve(this[name]) : this[`get${name}`](options)
+        }
     }
 })
 

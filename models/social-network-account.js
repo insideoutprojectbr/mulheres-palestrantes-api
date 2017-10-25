@@ -25,17 +25,17 @@ export default function(sequelize, DataTypes) {
         },
         {
             underscored: true,
-            tableName: "social_network_accounts",
-            getterMethods: {
-                socialNetworkUrl(){
-                    return this.SocialNetwork.url.replace("username", this.getDataValue("username"))
-                }
-            }
+            tableName: "social_network_accounts"
         })
 
     SocialNetworkAccount.associate = function(models) {
         SocialNetworkAccount.belongsTo(models.Speaker)
         SocialNetworkAccount.belongsTo(models.SocialNetwork)
+    }
+
+    SocialNetworkAccount.prototype.getSocialNetworkUrl = function(){
+        return this.fetchAssociation("SocialNetwork").then(social_network =>
+            social_network.url.replace("username", this.getDataValue("username")))
     }
 
     return SocialNetworkAccount

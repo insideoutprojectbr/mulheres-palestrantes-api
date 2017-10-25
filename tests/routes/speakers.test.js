@@ -4,7 +4,48 @@ import request from "supertest"
 import sinon from "sinon"
 import factory from "../factories"
 import Promise from "bluebird"
-
+describe("Speakers GET by id route", () => {
+    describe("invalid id", () => {
+        test("it should return correct error status code", () => {
+            return request(app.callback())
+                .get("/api/speakers/1")
+                .set("Accept", "application/json")
+                .set("Content-Type", "application/json")
+                .then(response => {
+                    expect(response.statusCode).toBe(404)
+                })
+        })
+    })
+    describe("valid id", () => {
+        let speaker
+        beforeEach(done => {
+            Promise.join(
+                factory.create("Speaker"),
+                factory.createMany("Interest", 2),
+                factory.createMany("SocialNetwork", 2),
+                (speaker, interests, social_networks) => {
+                    return Promise.join(
+                        speaker.setInterests(interests),
+                        Promise.map(social_networks, sn => factory.create("SocialNetworkAccount", {
+                            speaker_id: speaker.id,
+                            social_network_id: sn.id
+                        })), () => Promise.resolve(speaker.reload()))
+                }).then(response => {
+                speaker = response
+                done()
+            })
+        })
+        test("it should return speaker data", () => {
+            return request(app.callback())
+                .get(`/api/speakers/${speaker.id}`)
+                .set("Accept", "application/json")
+                .set("Content-Type", "application/json")
+                .then(response => {
+                    expect(response.statusCode).toBe(200)
+                })
+        })
+    })
+})
 describe("Speakers GET route", () => {
     let sandbox
 
@@ -74,16 +115,14 @@ describe("Speakers GET route", () => {
         })
         describe("with filter", () => {
             test("It should apply given filter to speaker list", () => {
-                const scope = sandbox.stub(db.Speaker, "scope").returns(db.Speaker)
-                const findAll = sandbox.stub(db.Speaker, "findAll").returns([])
+                const findByQuery = sandbox.stub(db.Speaker, "findByQuery").returns(Promise.resolve([]))
                 return request(app.callback())
                     .get("/api/speakers")
                     .query({query: "aa"})
                     .set("Accept", "application/json")
                     .set("Content-Type", "application/json")
                     .then(response => {
-                        expect(scope.calledWith({method: ["searchable", "aa"]})).toBe(true)
-                        expect(findAll.called).toBe(true)
+                        expect(findByQuery.calledWith("aa")).toBe(true)
                         expect(response.body.speakers).toEqual([])
                     })
             })
