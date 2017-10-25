@@ -4,10 +4,11 @@ import {handleError} from "./handlers"
 import healthcheck from "./routes/healthcheck"
 import speakers from "./routes/speakers"
 import winston from "winston"
-// import config from "./config"
+import cors from "kcors"
+import config from "./config"
 
 const logger = winston.createLogger({
-    level: "info",
+    level: config.LOG_LEVEL,
     format: winston.format.simple(),
     transports: [
         new winston.transports.Console(),
@@ -16,6 +17,7 @@ const logger = winston.createLogger({
 })
 
 const app = new Koa()
+app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
 let api = new Router({
     prefix: "/api"
 })
