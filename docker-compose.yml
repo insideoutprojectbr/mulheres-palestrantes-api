@@ -3,21 +3,28 @@ services:
   web:
     build: .
     command: npm run local
-    container_name: "mulheres-palestrantes-api-web"
     links:
       - db
+      - cache
     depends_on:
       - db
+      - cache
     volumes:
       - .:/app/
       - /app/node_modules
     ports:
       - "3000:3000"
+    container_name: mulheres-palestrantes-api-web
     env_file: .env
   db:
     image: postgres:10.0
     ports:
       - "5432:5432"
-    container_name: "mulheres-palestrantes-api-db"
+    container_name: mulheres-palestrantes-api-db
     environment:
       - POSTGRES_DB=mulheres_palestrantes_db
+  cache:
+    image: redis:3.2
+    ports:
+      - "6379:6379"
+    container_name: mulheres-palestrantes-api-cache

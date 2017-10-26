@@ -1,5 +1,6 @@
 import Koa from "koa"
 import Router from "koa-router"
+import cache from "koa-redis-cache"
 import {handleError} from "./handlers"
 import healthcheck from "./routes/healthcheck"
 import speakers from "./routes/speakers"
@@ -17,7 +18,22 @@ const logger = winston.createLogger({
 })
 
 const app = new Koa()
+
 app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
+
+if (config.NODE_ENV !== "test"){
+    app.use(cache({
+        redis: {
+            url: config.REDIS_URL
+        },
+        exclude: ["/api/healthcheck"],
+        expire: config.REDIS_EXPIRATION_IN_SECONDS,
+        onerror: (err) => {
+            logger.error(err)
+        }
+    }))
+}
+
 let api = new Router({
     prefix: "/api"
 })

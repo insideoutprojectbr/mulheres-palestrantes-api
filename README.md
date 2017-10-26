@@ -13,7 +13,7 @@ O ambiente de desenvolvimento da aplicação utiliza [Docker](https://docs.docke
 ### Docker-Compose
 
 A aplicação é configurada através de variáveis de ambiente.
-Para isso crie o arquivo `.env` através do arquivo `.env.sample`.
+Para isso crie o arquivo `.env` através do arquivo [`.env.sample`](.env.sample).
 
 ```
   docker-compose up # constrói e executa os containers da aplicação
@@ -21,11 +21,23 @@ Para isso crie o arquivo `.env` através do arquivo `.env.sample`.
 
 ### Banco de dados
 
-A aplicação suporta bancos [Postgres](https://www.postgresql.org/) e [SQLite](https://sqlite.org/). 
+A aplicação suporta bancos [Postgres](https://www.postgresql.org/) e [SQLite](https://sqlite.org/).
+Para camada de cache, utiliza o [Redis](https://redis.io/).
+
+#### Migração
 
 O script de versionamento de banco de dados utiliza o [Umzug](https://github.com/sequelize/umzug).
+
 ```
   docker-compose exec web npm run migrate up # executa as migrações do banco de dados
+```
+
+#### Seed
+
+O seguinte comando popula o banco de dados a partir de um json no seguinte [formato](https://raw.githubusercontent.com/insideoutprojectbr/mulheres-palestrantes/master/mulheres.json):
+
+```
+    docker-compose exec web npm run seed https://raw.githubusercontent.com/insideoutprojectbr/mulheres-palestrantes/master/mulheres.json
 ```
 
 ## Execução dos testes
