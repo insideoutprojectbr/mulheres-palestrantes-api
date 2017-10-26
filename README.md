@@ -48,3 +48,7 @@ Os testes da aplicação usam o framework [Jest](http://facebook.github.io/jest/
   docker-compose exec web npm test # executa os testes unitários
   docker-compose exec web npm run lint # executa o linter Eslint
 ```
+
+## Documentação
+
+A documentação da API está definida no formato [OpenAPI(Swagger)](https://swagger.io/) e pode ser acessada em [https://mulheres-palestrantes-api.herokuapp.com/api/docs](https://mulheres-palestrantes-api.herokuapp.com/api/docs). 

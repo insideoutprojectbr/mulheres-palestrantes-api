@@ -1,0 +1,155 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API para o site Mulheres Palestrantes",
+    "version": "1.0.0",
+    "title": "Mulheres Palestrantes API"
+  },
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "speakers",
+      "description": "Operações de palestrantes"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/speakers": {
+      "get": {
+        "tags": [
+          "speakers"
+        ],
+        "summary": "Exibe listagem de palestrantes",
+        "operationId": "listSpeakers",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "type": "string",
+            "description": "termo de busca por location, name ou interest"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucesso",
+            "schema": {
+              "properties": {
+                "speakers": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/speaker"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/speakers/{id}": {
+      "get": {
+        "tags": [
+          "speakers"
+        ],
+        "summary": "Busca palestrante por id",
+        "operationId": "showSpeaker",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "id do palestrante"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucesso",
+            "schema": {
+              "properties": {
+                "speaker": {
+                  "$ref": "#/definitions/speaker"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "não encontrado"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "speaker": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "email",
+        "location",
+        "photo",
+        "site",
+        "created_at",
+        "updated_at",
+        "interests"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "location": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "site": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "interests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "linkedin": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "fb": {
+          "type": "string"
+        },
+        "behance": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -113,6 +113,8 @@ export default function(sequelize, DataTypes) {
                     location: this.location,
                     photo : this.image,
                     site: this.site,
+                    created_at: this.created_at,
+                    updated_at: this.updated_at,
                     interests: interests
                 }
                 return Promise.resolve(Object.assign(data, social_networks))

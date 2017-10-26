@@ -1,11 +1,13 @@
 import Koa from "koa"
 import Router from "koa-router"
 import cache from "koa-redis-cache"
+import winston from "winston"
+import cors from "kcors"
+import {readFromFileOrUrl} from "./utils/file"
+import swagger from "koa2-swagger-ui"
 import {handleError} from "./handlers"
 import healthcheck from "./routes/healthcheck"
 import speakers from "./routes/speakers"
-import winston from "winston"
-import cors from "kcors"
 import config from "./config"
 
 const logger = winston.createLogger({
@@ -26,7 +28,7 @@ if (config.NODE_ENV !== "test"){
         redis: {
             url: config.REDIS_URL
         },
-        exclude: ["/api/healthcheck"],
+        exclude: ["/api/healthcheck", "/api/docs"],
         expire: config.REDIS_EXPIRATION_IN_SECONDS,
         onerror: (err) => {
             logger.error(err)
@@ -41,5 +43,16 @@ api.use(healthcheck.routes(), healthcheck.allowedMethods())
 api.use(speakers.routes(), speakers.allowedMethods())
 app.use(api.routes())
 app.use(api.allowedMethods())
+api.get("/docs/swagger.json", async ctx => {
+    ctx.body = await readFromFileOrUrl(__dirname + "/docs/swagger.json")
+})
+app.use(async (ctx, next) => {
+    swagger({
+        routePrefix: "/api/docs",
+        swaggerOptions: {
+            url: `${ctx.request.origin}/api/docs/swagger.json`,
+        }
+    })(ctx, next)
+})
 app.on("error", handleError)
 export {app, logger}
