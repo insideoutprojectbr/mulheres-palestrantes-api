@@ -20,7 +20,7 @@ const logger = winston.createLogger({
 })
 
 const app = new Koa()
-
+const protocol = config.NODE_ENV === "production" ? "https" : "http"
 app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
 
 if (config.NODE_ENV !== "test"){
@@ -44,13 +44,16 @@ api.use(speakers.routes(), speakers.allowedMethods())
 app.use(api.routes())
 app.use(api.allowedMethods())
 api.get("/docs/swagger.json", async ctx => {
-    ctx.body = await readFromFileOrUrl(__dirname + "/docs/swagger.json")
+    let swagger = JSON.parse(await readFromFileOrUrl(__dirname + "/docs/swagger.json"))
+    swagger["schemes"] = [protocol]
+    ctx.body = swagger
 })
 app.use(async (ctx, next) => {
     swagger({
         routePrefix: "/api/docs",
         swaggerOptions: {
-            url: `${ctx.request.origin}/api/docs/swagger.json`,
+            url: `${protocol}://${ctx.host}/api/docs/swagger.json`,
+            schemes: [protocol]
         }
     })(ctx, next)
 })
