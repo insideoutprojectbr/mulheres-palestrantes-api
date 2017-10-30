@@ -1,6 +1,5 @@
 import Promise from "bluebird"
-import db from "../../models"
-import * as image from "../../utils/image"
+import * as image from "../../helpers/image"
 import sinon from "sinon"
 import factory from "../factories"
 

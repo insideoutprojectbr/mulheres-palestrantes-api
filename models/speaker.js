@@ -1,5 +1,5 @@
 import Promise from "bluebird"
-import {generateGravatarUrl} from "../utils/image"
+import {generateGravatarUrl} from "../helpers/image"
 
 export default function(sequelize, DataTypes) {
     let Speaker = sequelize.define("Speaker",
@@ -28,7 +28,15 @@ export default function(sequelize, DataTypes) {
             site: {
                 type: DataTypes.STRING(255),
                 allowNull: true
-            }
+            },
+            user_id: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: "users",
+                    key: "id"
+                }
+            },
         },{
             underscored: true,
             tableName: "speakers",
@@ -72,6 +80,7 @@ export default function(sequelize, DataTypes) {
         })
 
     Speaker.associate = function(models) {
+        Speaker.belongsTo(models.User)
         Speaker.belongsToMany(models.Interest, {
             through: "speakers_interests",
             foreignKey: "speaker_id",

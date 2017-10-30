@@ -2,9 +2,9 @@ import {app} from "../../app"
 import db from "../../models"
 import request from "supertest"
 import sinon from "sinon"
-import Promise from "bluebird"
 
-describe("Healthcheck route", () => {
+
+describe("GET /api/healthcheck", () => {
     let sandbox
 
     beforeEach(() => {
@@ -16,7 +16,7 @@ describe("Healthcheck route", () => {
     })
     describe("Database down", () => {
         test("It should return status as down", () => {
-            sandbox.stub(db.sequelize, "authenticate").returns(Promise.reject())
+            sandbox.stub(db.sequelize, "authenticate").rejects()
             return request(app.callback())
                 .get("/api/healthcheck")
                 .set("Accept", "application/json")
@@ -29,7 +29,7 @@ describe("Healthcheck route", () => {
     })
     describe("Database up", () => {
         test("It should return status as up", () => {
-            sandbox.stub(db.sequelize, "authenticate").returns(Promise.resolve())
+            sandbox.stub(db.sequelize, "authenticate").resolves()
             return request(app.callback())
                 .get("/api/healthcheck")
                 .set("Accept", "application/json")

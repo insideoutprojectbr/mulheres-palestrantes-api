@@ -1,8 +1,8 @@
 import Promise from "bluebird"
 import program from "commander"
 import db from "../models"
-import {dedup, flatten} from "../utils/array"
-import {readFromFileOrUrl} from "../utils/file"
+import {dedup, flatten} from "../helpers/array"
+import {readFromFileOrUrl} from "../helpers/file"
 import {logger} from "."
 
 function associateInterests(speaker, interests){
@@ -84,9 +84,9 @@ function createSpeakerWithAssociations(item){
 
 program.arguments("<path>").action(async path => {
     try{
+        await db.sequelize.sync({force: true})
         const contents = await readFromFileOrUrl(path)
         const data = JSON.parse(contents)
-        await db.sequelize.sync({force: true})
         await createInterests(data.mulheres)
         await createSocialNetworks(data.mulheres)
         const speakers = await Promise.mapSeries(data.mulheres, item => createSpeakerWithAssociations(item))

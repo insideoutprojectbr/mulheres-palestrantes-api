@@ -4,7 +4,7 @@ import request from "supertest"
 import sinon from "sinon"
 import factory from "../factories"
 import Promise from "bluebird"
-describe("Speakers GET by id route", () => {
+describe("GET /api/speakers/:id", () => {
     describe("invalid id", () => {
         test("it should return correct error status code", () => {
             return request(app.callback())
@@ -46,7 +46,7 @@ describe("Speakers GET by id route", () => {
         })
     })
 })
-describe("Speakers GET route", () => {
+describe("GET /api/speakers", () => {
     let sandbox
 
     beforeEach(() => {
@@ -115,7 +115,7 @@ describe("Speakers GET route", () => {
         })
         describe("with filter", () => {
             test("It should apply given filter to speaker list", () => {
-                const findByQuery = sandbox.stub(db.Speaker, "findByQuery").returns(Promise.resolve([]))
+                const findByQuery = sandbox.stub(db.Speaker, "findByQuery").resolves([])
                 return request(app.callback())
                     .get("/api/speakers")
                     .query({query: "aa"})

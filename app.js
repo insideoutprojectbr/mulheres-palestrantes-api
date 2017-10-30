@@ -3,11 +3,13 @@ import Router from "koa-router"
 import cache from "koa-redis-cache"
 import winston from "winston"
 import cors from "kcors"
-import {readFromFileOrUrl} from "./utils/file"
 import swagger from "koa2-swagger-ui"
+import bodyParser from "koa-bodyparser"
+import {readFromFileOrUrl} from "./helpers/file"
 import {handleError} from "./handlers"
 import healthcheck from "./routes/healthcheck"
 import speakers from "./routes/speakers"
+import accounts from "./accounts/routes"
 import config from "./config"
 
 const logger = winston.createLogger({
@@ -20,7 +22,11 @@ const logger = winston.createLogger({
 })
 
 const app = new Koa()
+
 const protocol = config.NODE_ENV === "production" ? "https" : "http"
+
+app.use(bodyParser())
+app.use(handleError)
 app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
 
 if (config.NODE_ENV !== "test"){
@@ -41,21 +47,21 @@ let api = new Router({
 })
 api.use(healthcheck.routes(), healthcheck.allowedMethods())
 api.use(speakers.routes(), speakers.allowedMethods())
+api.use(accounts.routes(), accounts.allowedMethods())
+
+api.get("/docs/swagger.json", async ctx => {
+    const file = await readFromFileOrUrl(`${__dirname}/docs/swagger.json`)
+    ctx.body = Object.assign(JSON.parse(file), {schemes: [protocol]})
+})
+
 app.use(api.routes())
 app.use(api.allowedMethods())
-api.get("/docs/swagger.json", async ctx => {
-    let swagger = JSON.parse(await readFromFileOrUrl(__dirname + "/docs/swagger.json"))
-    swagger["schemes"] = [protocol]
-    ctx.body = swagger
-})
 app.use(async (ctx, next) => {
     swagger({
         routePrefix: "/api/docs",
         swaggerOptions: {
-            url: `${protocol}://${ctx.host}/api/docs/swagger.json`,
-            schemes: [protocol]
+            url: `${protocol}://${ctx.host}/api/docs/swagger.json`
         }
     })(ctx, next)
 })
-app.on("error", handleError)
 export {app, logger}

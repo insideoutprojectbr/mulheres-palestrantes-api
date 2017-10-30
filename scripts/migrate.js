@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import path from "path"
 import child_process from "child_process"
 import Promise from "bluebird"

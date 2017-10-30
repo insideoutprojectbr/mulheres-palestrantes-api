@@ -23,6 +23,111 @@
     "application/json"
   ],
   "paths": {
+    "/accounts": {
+      "post": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Cria conta de usuário",
+        "operationId": "createAccount",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/create_user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucesso",
+            "schema": {
+              "properties": {
+                "user": {
+                  "$ref": "#/definitions/user"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "dados inválidos"
+          },
+          "422": {
+            "description": "email não existe ou notificação não pôde ser enviada"
+          }
+        }
+      }
+    },
+    "/accounts/{id}/confirmation": {
+      "post": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Confirma conta de usuário",
+        "operationId": "confirmAccount",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "id da conta do usuário"
+          },
+          {
+            "in": "body",
+            "name": "user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/confirm_account"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucesso",
+            "schema": {
+              "properties": {
+                "user": {
+                  "$ref": "#/definitions/confirmation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "dados inválidos"
+          },
+          "422": {
+            "description": "conta não pode ser confirmada"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Envia link de confirmação de usuário por email",
+        "operationId": "sendConfirmationLink",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "id da conta do usuário"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "sucesso"
+          },
+          "422": {
+            "description": "email não pôde ser enviado"
+          }
+        }
+      }
+    },
     "/speakers": {
       "get": {
         "tags": [
@@ -148,6 +253,68 @@
         },
         "behance": {
           "type": "string"
+        }
+      }
+    },
+    "create_user": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "required": [
+        "email",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    },
+    "confirm_account": {
+      "type": "object",
+      "required": [
+        "key"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        }
+      }
+    },
+    "confirmation": {
+      "type": "object",
+      "properties": {
+        "account_id": {
+          "type": "integer"
+        },
+        "confirmation_date": {
+          "type": "string",
+          "format": "datetime"
         }
       }
     }

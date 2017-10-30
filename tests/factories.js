@@ -33,5 +33,10 @@ factory.define("SocialNetworkAccount", db.SocialNetworkAccount, {
     social_network_id: factory.assoc("SocialNetwork", "id")
 })
 
+factory.define("User", db.User, {
+    id: factory.sequence("Speaker.id"),
+    email: factory.chance("email"),
+    password: factory.chance("word")
+})
 
 export default factory
