@@ -10,7 +10,10 @@ import {handleError} from "./handlers"
 import healthcheck from "./routes/healthcheck"
 import speakers from "./routes/speakers"
 import accounts from "./accounts/routes"
+import auth from "./auth/routes"
 import config from "./config"
+import {passport} from "./auth/middleware"
+
 
 const logger = winston.createLogger({
     level: config.LOG_LEVEL,
@@ -28,13 +31,14 @@ const protocol = config.NODE_ENV === "production" ? "https" : "http"
 app.use(bodyParser())
 app.use(handleError)
 app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
+app.use(passport.initialize())
 
 if (config.NODE_ENV !== "test"){
     app.use(cache({
         redis: {
             url: config.REDIS_URL
         },
-        exclude: ["/api/healthcheck", "/api/docs"],
+        include: ["/api/speakers", "/api/speakers/(.*)"],
         expire: config.REDIS_EXPIRATION_IN_SECONDS,
         onerror: (err) => {
             logger.error(err)
@@ -48,6 +52,7 @@ let api = new Router({
 api.use(healthcheck.routes(), healthcheck.allowedMethods())
 api.use(speakers.routes(), speakers.allowedMethods())
 api.use(accounts.routes(), accounts.allowedMethods())
+api.use(auth.routes(), auth.allowedMethods())
 
 api.get("/docs/swagger.json", async ctx => {
     const file = await readFromFileOrUrl(`${__dirname}/docs/swagger.json`)

@@ -1,3 +1,4 @@
+import config from "../config"
 import {generateSalt, generatePassword, verifyPassword, generateConfirmationKey} from "../helpers/account"
 
 export default function(sequelize, DataTypes) {
@@ -38,7 +39,24 @@ export default function(sequelize, DataTypes) {
             underscored: true,
             tableName: "users",
             createdAt: "created_at",
-            updatedAt: "updated_at"
+            updatedAt: "updated_at",
+            getterMethods: {
+                account_confirmation_url(){
+                    return `${config.EMAIL_CONFIRMATION_URL}/accounts/${this.id}/confirmation?key=${this.confirmation_key}`
+                }
+            },
+            scopes: {
+                active: function(){
+                    const Op = sequelize.Sequelize.Op
+                    return {
+                        where: {
+                            confirmation_date: {
+                                [Op.not]: null
+                            }
+                        }
+                    }
+                }
+            }
         })
 
     User.associate = function(models) {
@@ -49,7 +67,7 @@ export default function(sequelize, DataTypes) {
         return verifyPassword(password, this.password_hash)
     }
 
-    User.prototype.confirmAccount = async function (key){
+    User.prototype.confirm = async function (key){
         if (!Object.is(key, this.confirmation_key) || Object.is(key, null)){
             throw new Error("Invalid confirmation key")
         }

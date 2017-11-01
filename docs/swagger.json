@@ -22,6 +22,13 @@
   "consumes": [
     "application/json"
   ],
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authentication"
+    }
+  },
   "paths": {
     "/accounts": {
       "post": {
@@ -128,6 +135,37 @@
         }
       }
     },
+    "/auth/login": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Retorna um token jwt para autenticação no sistema",
+        "description": "Apenas usuários que confirmaram sua conta pelo link enviado por email podem se autenticar no sistema",
+        "operationId": "authLogin",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucesso",
+            "schema": {
+              "properties": {
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/speakers": {
       "get": {
         "tags": [
@@ -195,6 +233,23 @@
     }
   },
   "definitions": {
+    "login": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
     "speaker": {
       "type": "object",
       "required": [

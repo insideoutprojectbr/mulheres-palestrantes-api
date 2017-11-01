@@ -2,9 +2,8 @@
   "presets": [
     ["env", {
       "targets": {
-        "node": "current"
-      },
-      "modules": "commonjs"
+        "node": "8.8.1"
+      }
     }]
   ]
 }

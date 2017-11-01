@@ -7,7 +7,7 @@ function validateSchema(schema){
             ctx.validatedData = value
             await next()
         }else{
-            ctx.throw(400, error.message)
+            ctx.throw(400, error)
         }
     }
 }

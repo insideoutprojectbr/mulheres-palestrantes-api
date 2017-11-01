@@ -1,6 +1,6 @@
 import Promise from "bluebird"
-import db from "../models"
 import Router from "koa-router"
+import db from "../models"
 
 const router = new Router({
     prefix: "/speakers"

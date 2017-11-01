@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/insideoutprojectbr/mulheres-palestrantes-api.svg?branch=master)](https://travis-ci.org/insideoutprojectbr/mulheres-palestrantes-api)
 [![Coverage Status](https://coveralls.io/repos/github/insideoutprojectbr/mulheres-palestrantes-api/badge.svg)](https://coveralls.io/github/insideoutprojectbr/mulheres-palestrantes-api)
 [![Known Vulnerabilities](https://snyk.io/test/github/insideoutprojectbr/mulheres-palestrantes-api/badge.svg)](https://snyk.io/test/github/insideoutprojectbr/mulheres-palestrantes-api)
+[![Dependency Status](https://gemnasium.com/badges/github.com/insideoutprojectbr/mulheres-palestrantes-api.svg)](https://gemnasium.com/github.com/insideoutprojectbr/mulheres-palestrantes-api)
 
 API para o site [mulheres-palestrantes](https://github.com/insideoutprojectbr/mulheres-palestrantes) em Node.js usando [Koa](http://koajs.com/) e [Sequelize](http://docs.sequelizejs.com/).
 
@@ -51,4 +52,4 @@ Os testes da aplicação usam o framework [Jest](http://facebook.github.io/jest/
 
 ## Documentação
 
-A documentação da API está definida no formato [OpenAPI(Swagger)](https://swagger.io/) e pode ser acessada em [https://mulheres-palestrantes-api.herokuapp.com/api/docs](https://mulheres-palestrantes-api.herokuapp.com/api/docs). 
+A documentação da API está definida no formato [OpenAPI(Swagger)](https://swagger.io/) e pode ser acessada em [https://mulheres-palestrantes-api.herokuapp.com/api/docs](https://mulheres-palestrantes-api.herokuapp.com/api/docs).

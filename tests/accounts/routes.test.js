@@ -1,5 +1,6 @@
 import {app} from "../../app"
-import {Signup, Notification} from "../../accounts/actions"
+import {Account} from "../../accounts/actions"
+import {AccountConfirmationMailer} from "../../mailers"
 import factory from "../factories"
 import db from "../../models"
 import request from "supertest"
@@ -20,7 +21,8 @@ describe("POST /api/accounts", () => {
     })
     describe("Valid data", () => {
         test("It should return new account data", () => {
-            const mock = sandbox.stub(Signup.prototype, "process").returns(db.User.create(data))
+            sandbox.stub(AccountConfirmationMailer.prototype, "send").resolves()
+            const mock = sandbox.stub(Account.prototype, "create").returns(db.User.create(data))
             return request(app.callback())
                 .post("/api/accounts")
                 .set("Accept", "application/json")
@@ -35,7 +37,7 @@ describe("POST /api/accounts", () => {
     })
     describe("Invalid data", () => {
         test("It should return error", () => {
-            const mock = sandbox.stub(Signup.prototype, "process").rejects(new Error("Invalid email address"))
+            const mock = sandbox.stub(Account.prototype, "create").rejects(new Error("Invalid email address"))
             return request(app.callback())
                 .post("/api/accounts")
                 .set("Accept", "application/json")
@@ -48,7 +50,7 @@ describe("POST /api/accounts", () => {
         })
     })
 })
-describe("GET /api/:account_id/notification", () => {
+describe("GET /api/:account_id/confirmation", () => {
     let sandbox
     beforeEach(() => {
         sandbox = sinon.sandbox.create()
@@ -62,8 +64,8 @@ describe("GET /api/:account_id/notification", () => {
             user = await factory.create("User")
             done()
         })
-        it("should send notification with confirmation link", () => {
-            const mock = sandbox.stub(Notification.prototype, "send").resolves()
+        it("should send confirmation with confirmation link", () => {
+            const mock = sandbox.stub(AccountConfirmationMailer.prototype, "send").resolves()
             return request(app.callback())
                 .get(`/api/accounts/${user.id}/confirmation`)
                 .set("Accept", "application/json")
@@ -81,7 +83,7 @@ describe("GET /api/:account_id/notification", () => {
             done()
         })
         it("should return error", () => {
-            const mock = sandbox.stub(Notification.prototype, "send").resolves()
+            const mock = sandbox.stub(AccountConfirmationMailer.prototype, "send").resolves()
             return request(app.callback())
                 .get(`/api/accounts/${user.id}/confirmation`)
                 .set("Accept", "application/json")
@@ -120,7 +122,7 @@ describe("POST /api/:account_id/confirmation", () => {
             done()
         })
         it("should confirm user account", () => {
-            const mock = sandbox.stub(db.User.prototype, "confirmAccount").returns(user)
+            const mock = sandbox.stub(db.User.prototype, "confirm").returns(user)
             return request(app.callback())
                 .post(`/api/accounts/${user.id}/confirmation`)
                 .set("Accept", "application/json")
@@ -139,7 +141,7 @@ describe("POST /api/:account_id/confirmation", () => {
             done()
         })
         it("should return error", () => {
-            const mock = sandbox.stub(db.User.prototype, "confirmAccount").rejects(new Error("User already confirmed"))
+            const mock = sandbox.stub(db.User.prototype, "confirm").rejects(new Error("User already confirmed"))
             return request(app.callback())
                 .post(`/api/accounts/${user.id}/confirmation`)
                 .set("Accept", "application/json")
