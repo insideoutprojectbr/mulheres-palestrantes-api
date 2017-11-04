@@ -18,7 +18,7 @@ router.get("/", async ctx => {
         speakers: speakers
     }
 })
-router.post("/", authenticateWithJWT, validateSchema(SpeakerSchema),  async ctx => {
+router.post("/", authenticateWithJWT, validateSchema(SpeakerSchema), async ctx => {
     try{
         let data = ctx.validatedData
         data.user_id = ctx.user.id

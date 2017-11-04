@@ -14,7 +14,7 @@ router.post("/", validateSchema(AccountSchema), async ctx => {
         const account = new Account(ctx.validatedData)
         const user = await account.create()
         const mail = new AccountConfirmationMailer(user)
-        await mail.send()
+        mail.send()
         ctx.status = 201
         ctx.body = {
             user: {
@@ -41,7 +41,7 @@ router.get("/:account_id/confirmation", async ctx => {
             throw new Error("User not found")
         }
         const mail = new AccountConfirmationMailer(user)
-        await mail.send()
+        mail.send()
         ctx.status = 204
     } catch(error){
         ctx.throw(422, error)

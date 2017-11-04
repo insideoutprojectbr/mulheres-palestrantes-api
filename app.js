@@ -30,8 +30,9 @@ const protocol = config.NODE_ENV === "production" ? "https" : "http"
 
 app.use(bodyParser())
 app.use(handleError)
-app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
 app.use(passport.initialize())
+
+app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
 
 if (config.NODE_ENV === "production"){
     app.use(cache({
@@ -69,4 +70,5 @@ app.use(async (ctx, next) => {
         }
     })(ctx, next)
 })
+
 export {app, logger}
