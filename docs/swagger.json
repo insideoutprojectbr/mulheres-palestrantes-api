@@ -9,7 +9,15 @@
   "tags": [
     {
       "name": "speakers",
-      "description": "Operações de palestrantes"
+      "description": "Gerenciamento de palestrantes"
+    },
+    {
+      "name": "accounts",
+      "description": "Gerenciamento de conta de usuário"
+    },
+    {
+      "name": "auth",
+      "description": "Autenticação com JWT"
     }
   ],
   "schemes": [
@@ -17,7 +25,8 @@
     "https"
   ],
   "produces": [
-    "application/json"
+    "application/json",
+    "text/plain"
   ],
   "consumes": [
     "application/json"
@@ -136,7 +145,7 @@
       }
     },
     "/auth/login": {
-      "get": {
+      "post": {
         "tags": [
           "auth"
         ],
@@ -196,6 +205,42 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "speakers"
+        ],
+        "summary": "Cadastra palestrantes",
+        "operationId": "createSpeaker",
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/create_speaker"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucesso",
+            "schema": {
+              "properties": {
+                "speaker": {
+                  "$ref": "#/definitions/speaker"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        }
       }
     },
     "/speakers/{id}": {
@@ -251,6 +296,71 @@
       }
     },
     "speaker": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "email",
+        "location",
+        "photo",
+        "site",
+        "created_at",
+        "updated_at",
+        "interests",
+        "user_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "location": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "site": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "interests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "linkedin": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "fb": {
+          "type": "string"
+        },
+        "behance": {
+          "type": "string"
+        }
+      }
+    },
+    "create_speaker": {
       "type": "object",
       "required": [
         "id",

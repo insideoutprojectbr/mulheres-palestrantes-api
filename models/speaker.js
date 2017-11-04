@@ -56,11 +56,11 @@ export default function(sequelize, DataTypes) {
                     }
                     if (query){
                         filter = {
-                            $or: {
-                                name: iLikeFilter,
-                                location: iLikeFilter,
-                                "$Interests.name$": iLikeFilter
-                            }
+                            $or: [
+                                {name: iLikeFilter},
+                                {location: iLikeFilter},
+                                {"$Interests.name$": iLikeFilter}
+                            ]
                         }
                     }
                     return  {
@@ -124,7 +124,8 @@ export default function(sequelize, DataTypes) {
                     site: this.site,
                     created_at: this.created_at,
                     updated_at: this.updated_at,
-                    interests: interests
+                    interests: interests,
+                    user_id: this.user_id
                 }
                 return Promise.resolve(Object.assign(data, social_networks))
             })

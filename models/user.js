@@ -1,5 +1,5 @@
 import config from "../config"
-import {generateSalt, generatePassword, verifyPassword, generateConfirmationKey} from "../helpers/account"
+import {generateSalt, generatePassword, verifyPassword, generateConfirmationKey} from "../helpers/user"
 
 export default function(sequelize, DataTypes) {
     let User = sequelize.define("User",
@@ -46,14 +46,16 @@ export default function(sequelize, DataTypes) {
                 }
             },
             scopes: {
-                active: function(){
-                    const Op = sequelize.Sequelize.Op
-                    return {
-                        where: {
-                            confirmation_date: {
-                                [Op.not]: null
-                            }
+                active: {
+                    where: {
+                        confirmation_date: {
+                            [sequelize.Sequelize.Op.not]: null
                         }
+                    }
+                },
+                inactive: {
+                    where: {
+                        confirmation_date: null
                     }
                 }
             }

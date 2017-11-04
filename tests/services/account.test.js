@@ -1,6 +1,6 @@
 import sinon from "sinon"
-import * as validators from "../../accounts/validators"
-import {Account} from "../../accounts/actions"
+import * as validators from "../../validators"
+import {Account} from "../../services/account"
 import db from "../../models"
 
 describe("Account", () => {

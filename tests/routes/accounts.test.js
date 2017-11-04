@@ -1,5 +1,5 @@
 import {app} from "../../app"
-import {Account} from "../../accounts/actions"
+import {Account} from "../../services/account"
 import {AccountConfirmationMailer} from "../../mailers"
 import factory from "../factories"
 import db from "../../models"

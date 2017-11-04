@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "babel-node ./server.js",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "local": "nodemon --exec babel-node -- ./server.js",
     "shell": "babel-node",
     "migrate": "babel-node ./scripts/migrate.js",
@@ -46,7 +46,7 @@
     "passport-jwt": "^3.0.1",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.17.2",
+    "sequelize": "^4.22.2",
     "sqlite3": "^3.1.13",
     "superagent": "^3.8.0",
     "uid-safe": "^2.1.5",

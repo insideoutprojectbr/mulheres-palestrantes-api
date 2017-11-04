@@ -2,7 +2,7 @@ import db from "../models"
 import Router from "koa-router"
 import {AccountSchema, AccountConfirmationSchema} from "../schemas/account"
 import validateSchema from "../schemas/middleware"
-import {Account} from "./actions"
+import {Account} from "../services/account"
 import {AccountConfirmationMailer} from "../mailers"
 
 const router = new Router({
@@ -14,7 +14,7 @@ router.post("/", validateSchema(AccountSchema), async ctx => {
         const account = new Account(ctx.validatedData)
         const user = await account.create()
         const mail = new AccountConfirmationMailer(user)
-        mail.send()
+        await mail.send()
         ctx.status = 201
         ctx.body = {
             user: {
@@ -41,7 +41,7 @@ router.get("/:account_id/confirmation", async ctx => {
             throw new Error("User not found")
         }
         const mail = new AccountConfirmationMailer(user)
-        mail.send()
+        await mail.send()
         ctx.status = 204
     } catch(error){
         ctx.throw(422, error)

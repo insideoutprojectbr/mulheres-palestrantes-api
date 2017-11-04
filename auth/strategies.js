@@ -4,10 +4,11 @@ import config from "../config"
 
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: config.JWT_SECRET_KEY
+    secretOrKey: config.JWT_SECRET_KEY,
+    passReqToCallback: true
 }
 
-const JWTStrategy = new Strategy(options, async (jwt_payload, done) => {
+const JWTStrategy = new Strategy(options, async (req, jwt_payload, done) => {
     const user = await db.User.findById(jwt_payload.id)
     if (user){
         done(null, user)

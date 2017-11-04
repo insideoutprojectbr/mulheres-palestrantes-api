@@ -1,6 +1,6 @@
 import sinon from "sinon"
 import mailConfirm from "mail-confirm"
-import {validateEmailExistence} from "../../accounts/validators"
+import {validateEmailExistence} from "../../validators"
 
 describe("#validateEmailExistence", () => {
     let sandbox

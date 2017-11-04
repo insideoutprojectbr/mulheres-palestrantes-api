@@ -9,7 +9,7 @@ import {readFromFileOrUrl} from "./helpers/file"
 import {handleError} from "./handlers"
 import healthcheck from "./routes/healthcheck"
 import speakers from "./routes/speakers"
-import accounts from "./accounts/routes"
+import accounts from "./routes/accounts"
 import auth from "./auth/routes"
 import config from "./config"
 import {passport} from "./auth/middleware"
@@ -33,7 +33,7 @@ app.use(handleError)
 app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
 app.use(passport.initialize())
 
-if (config.NODE_ENV !== "test"){
+if (config.NODE_ENV === "production"){
     app.use(cache({
         redis: {
             url: config.REDIS_URL

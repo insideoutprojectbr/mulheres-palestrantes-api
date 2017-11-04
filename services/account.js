@@ -1,5 +1,5 @@
 import db from "../models"
-import {validateEmailExistence} from "./validators"
+import {validateEmailExistence} from "../validators"
 
 class Account {
 
