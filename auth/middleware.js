@@ -4,7 +4,7 @@ import {JWTStrategy} from "./strategies"
 const passport = koaPassport.use(JWTStrategy)
 
 const authenticateWithJWT = async (ctx, next) => {
-    await passport.authenticate("jwt", { session: false }, function(unknown, user, err){
+    await passport.authenticate("jwt", { session: false }, (info, user, err) => {
         if (err){
             ctx.throw(401, err)
         }else{

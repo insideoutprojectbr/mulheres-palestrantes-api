@@ -20,8 +20,7 @@ router.get("/", async ctx => {
 })
 router.post("/", authenticateWithJWT, validateSchema(SpeakerSchema), async ctx => {
     try{
-        let data = ctx.validatedData
-        data.user_id = ctx.user.id
+        let data = Object.assign(ctx.validatedData, {user_id: ctx.state.user.id})
         const speaker = await Speaker.createWithAssociations(data)
         ctx.body = {
             speaker: await speaker.getFullInfo()

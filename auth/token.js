@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken"
 const generateToken = user => {
     return jwt.sign({
         id: user.id
-    }, config.JWT_SECRET_KEY, {}, {
-        expireIn: config.JWT_EXPIRATION_IN_SECONDS
+    }, config.JWT_SECRET_KEY, {
+        expiresIn: config.JWT_EXPIRATION
     })
 }
 

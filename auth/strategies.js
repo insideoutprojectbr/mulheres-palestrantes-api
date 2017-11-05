@@ -4,18 +4,18 @@ import config from "../config"
 
 const options = {
     jwtFromRequest: function extractToken(req){
-        return (req.header.authentication || "").replace("Bearer", "").replace("bearer", "").replace(" ", "")
+        const token = (req.header.authentication || "").replace("Bearer", "").replace("bearer", "").replace(" ", "")
+        return token
     },
     secretOrKey: config.JWT_SECRET_KEY
 }
 
 const JWTStrategy = new Strategy(options, (jwt_payload, done) => {
     db.User.findById(jwt_payload.id).then(user => {
-        if (user){
-            done(null, user)
-        }else{
-            done(new Error("user not found"), false)
+        if (user) {
+            return done(null, user)
         }
+        return done(null, false)
     }).catch(err => done(err, false))
 })
 

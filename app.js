@@ -31,6 +31,7 @@ const protocol = config.NODE_ENV === "production" ? "https" : "http"
 app.use(bodyParser())
 app.use(handleError)
 app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(cors({origin: config.CORS_ALLOWED_ORIGIN}))
 
