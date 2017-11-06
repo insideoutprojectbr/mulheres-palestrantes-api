@@ -4,6 +4,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/insideoutprojectbr/mulheres-palestrantes-api/badge.svg)](https://coveralls.io/github/insideoutprojectbr/mulheres-palestrantes-api)
 [![Known Vulnerabilities](https://snyk.io/test/github/insideoutprojectbr/mulheres-palestrantes-api/badge.svg)](https://snyk.io/test/github/insideoutprojectbr/mulheres-palestrantes-api)
 [![Dependency Status](https://gemnasium.com/badges/github.com/insideoutprojectbr/mulheres-palestrantes-api.svg)](https://gemnasium.com/github.com/insideoutprojectbr/mulheres-palestrantes-api)
+[![Code Climate](https://codeclimate.com/github/insideoutprojectbr/mulheres-palestrantes-api/badges/gpa.svg)](https://codeclimate.com/github/insideoutprojectbr/mulheres-palestrantes-api)
+[![Test Coverage](https://codeclimate.com/github/insideoutprojectbr/mulheres-palestrantes-api/badges/coverage.svg)](https://codeclimate.com/github/insideoutprojectbr/mulheres-palestrantes-api/coverage)
 
 API para o site [mulheres-palestrantes](https://github.com/insideoutprojectbr/mulheres-palestrantes) em Node.js usando [Koa](http://koajs.com/) e [Sequelize](http://docs.sequelizejs.com/).
 

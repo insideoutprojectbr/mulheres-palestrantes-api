@@ -1,5 +1,4 @@
 import sinon from "sinon"
-import * as validators from "../../validators"
 import {Account} from "../../services/account"
 import db from "../../models"
 
