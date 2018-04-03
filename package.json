@@ -17,7 +17,9 @@
     "migrate": "babel-node ./scripts/migrate.js",
     "seed": "babel-node ./scripts/seed.js",
     "test": "cross-env NODE_ENV=test jest --runInBand --no-cache --verbose --coverage --forceExit --expand --useStderr",
-    "ci": "npm run test && cat ./coverage/lcov.info | coveralls"
+    "ci": "npm run test && cat ./coverage/lcov.info | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.1.4",
@@ -50,7 +52,8 @@
     "superagent": "^3.8.0",
     "uid-safe": "^2.1.5",
     "umzug": "^2.1.0",
-    "winston": "^3.0.0-rc0"
+    "winston": "^3.0.0-rc0",
+    "snyk": "^1.69.7"
   },
   "devDependencies": {
     "debug": "3.1.0",
@@ -63,5 +66,6 @@
   "jest": {
     "testEnvironment": "node",
     "setupTestFrameworkScriptFile": "./tests/setup.js"
-  }
+  },
+  "snyk": true
 }
