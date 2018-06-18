@@ -53,7 +53,7 @@
     "uid-safe": "^2.1.5",
     "umzug": "^2.1.0",
     "winston": "^3.0.0-rc0",
-    "snyk": "^1.69.7"
+    "snyk": "^1.83.0"
   },
   "devDependencies": {
     "debug": "3.1.0",
