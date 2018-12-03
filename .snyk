@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.10.1
+version: v1.13.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -9,3 +9,16 @@ patch:
   'npm:request:20160119':
     - coveralls > log-driver > codecov.io > request:
         patched: '2018-02-10T04:31:32.016Z'
+  'npm:hoek:20180212':
+    - passport-jwt > jsonwebtoken > joi > hoek:
+        patched: '2018-12-03T23:41:33.206Z'
+    - sqlite3 > node-pre-gyp > hawk > hoek:
+        patched: '2018-12-03T23:41:33.206Z'
+    - passport-jwt > jsonwebtoken > joi > topo > hoek:
+        patched: '2018-12-03T23:41:33.206Z'
+    - sqlite3 > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-12-03T23:41:33.206Z'
+    - sqlite3 > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-12-03T23:41:33.206Z'
+    - sqlite3 > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-03T23:41:33.206Z'
